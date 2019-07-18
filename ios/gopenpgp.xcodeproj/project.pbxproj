@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		208EAE3D22AC13D9001EC556 /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 208EAE3C22AC13D9001EC556 /* Crypto.framework */; };
+		207C771822E0BA1B003A1123 /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 207C771722E0BA1B003A1123 /* Crypto.framework */; };
 		208EAE3F22AC356E001EC556 /* PGPData.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208EAE3E22AC356E001EC556 /* PGPData.pb.swift */; };
 		208EAE4122AC4ECA001EC556 /* logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 208EAE4022AC4ECA001EC556 /* logo.jpg */; };
 		208EAE4422AC653A001EC556 /* logo.pb in Resources */ = {isa = PBXBuildFile; fileRef = 208EAE4322AC653A001EC556 /* logo.pb */; };
@@ -33,7 +33,7 @@
 
 /* Begin PBXFileReference section */
 		1C5DA9C281B1308201616295 /* Pods_gopenpgp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gopenpgp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		208EAE3C22AC13D9001EC556 /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crypto.framework; sourceTree = "<group>"; };
+		207C771722E0BA1B003A1123 /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crypto.framework; sourceTree = "<group>"; };
 		208EAE3E22AC356E001EC556 /* PGPData.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPData.pb.swift; sourceTree = "<group>"; };
 		208EAE4022AC4ECA001EC556 /* logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logo.jpg; sourceTree = "<group>"; };
 		208EAE4322AC653A001EC556 /* logo.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = logo.pb; sourceTree = "<group>"; };
@@ -73,8 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				208EAE3D22AC13D9001EC556 /* Crypto.framework in Frameworks */,
 				C7A9739E70D299E421B23C4D /* Pods_gopenpgp.framework in Frameworks */,
+				207C771822E0BA1B003A1123 /* Crypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,7 +121,7 @@
 		20CE62B322A2C42400C26504 = {
 			isa = PBXGroup;
 			children = (
-				208EAE3C22AC13D9001EC556 /* Crypto.framework */,
+				207C771722E0BA1B003A1123 /* Crypto.framework */,
 				20CE62BE22A2C42400C26504 /* gopenpgp */,
 				20A0EFCC22A7E7CE00A32AD2 /* gopenpgpTests */,
 				20CE62BD22A2C42400C26504 /* Products */,
