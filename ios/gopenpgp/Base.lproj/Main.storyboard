@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,69 +16,87 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BgU-Mg-ly9">
-                                <rect key="frame" x="186" y="841" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OhS-4W-4Tb">
-                                <rect key="frame" x="180.5" y="761" width="53" height="30"/>
-                                <state key="normal" title="decrypt"/>
-                                <connections>
-                                    <action selector="decrypt:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IKa-Hh-OIi"/>
-                                </connections>
-                            </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="key" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Qmk-fC-Lqc" userLabel="key">
-                                <rect key="frame" x="0.0" y="174.5" width="414" height="200"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="5KD-8I-Q2f">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="key" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Qmk-fC-Lqc" userLabel="key">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="327"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="password" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rY4-rg-V5J" userLabel="password">
+                                        <rect key="frame" x="0.0" y="332" width="414" height="119"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="message" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mGu-7z-Whf" userLabel="message">
+                                        <rect key="frame" x="0.0" y="456" width="414" height="327"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="0Df-Zu-fLj">
+                                        <rect key="frame" x="0.0" y="788" width="414" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pFg-6T-Kjo">
+                                                <rect key="frame" x="0.0" y="0.0" width="138" height="30"/>
+                                                <state key="normal" title="encrypt"/>
+                                                <connections>
+                                                    <action selector="encrypt:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iFQ-QJ-g0z"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OhS-4W-4Tb">
+                                                <rect key="frame" x="138" y="0.0" width="138" height="30"/>
+                                                <state key="normal" title="decrypt"/>
+                                                <connections>
+                                                    <action selector="decrypt:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IKa-Hh-OIi"/>
+                                                </connections>
+                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="pvu-Ru-OzU">
+                                                <rect key="frame" x="276" y="0.0" width="138" height="30"/>
+                                                <subviews>
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0FD-Kl-Rct" userLabel="signed">
+                                                        <rect key="frame" x="0.0" y="0.0" width="51" height="30"/>
+                                                    </switch>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Signed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="av9-hK-Xxe">
+                                                        <rect key="frame" x="54" y="0.0" width="84" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="sL2-hs-r0W"/>
+                                    <constraint firstItem="mGu-7z-Whf" firstAttribute="height" secondItem="Qmk-fC-Lqc" secondAttribute="height" id="htd-aA-bt6"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="message" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mGu-7z-Whf" userLabel="message">
-                                <rect key="frame" x="0.0" y="424.5" width="414" height="286.5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pFg-6T-Kjo">
-                                <rect key="frame" x="258" y="761" width="53" height="30"/>
-                                <state key="normal" title="encrypt"/>
-                                <connections>
-                                    <action selector="encrypt:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iFQ-QJ-g0z"/>
-                                </connections>
-                            </button>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="BgU-Mg-ly9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2bL-te-Zuc"/>
-                            <constraint firstItem="mGu-7z-Whf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="6U9-79-tZR"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="BgU-Mg-ly9" secondAttribute="bottom" id="FpW-s5-4Ox"/>
-                            <constraint firstItem="pFg-6T-Kjo" firstAttribute="leading" secondItem="OhS-4W-4Tb" secondAttribute="trailing" constant="24.5" id="PLH-kl-8Ek"/>
-                            <constraint firstItem="Qmk-fC-Lqc" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" id="R0j-aX-xwx"/>
-                            <constraint firstItem="OhS-4W-4Tb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YQQ-6M-2g6"/>
-                            <constraint firstItem="mGu-7z-Whf" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" id="dkQ-23-9Ip"/>
-                            <constraint firstItem="mGu-7z-Whf" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.35" id="kOp-i0-Dy9"/>
-                            <constraint firstItem="mGu-7z-Whf" firstAttribute="top" secondItem="Qmk-fC-Lqc" secondAttribute="bottom" constant="50" id="l60-L9-Gir"/>
-                            <constraint firstItem="pFg-6T-Kjo" firstAttribute="centerY" secondItem="OhS-4W-4Tb" secondAttribute="centerY" id="mHZ-1O-Hde"/>
-                            <constraint firstItem="OhS-4W-4Tb" firstAttribute="top" secondItem="mGu-7z-Whf" secondAttribute="bottom" constant="50" id="ohZ-Bp-ckj"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pFg-6T-Kjo" secondAttribute="trailing" constant="103" id="vD8-di-tva"/>
-                            <constraint firstItem="Qmk-fC-Lqc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wAA-Xn-4rs"/>
-                            <constraint firstItem="BgU-Mg-ly9" firstAttribute="top" secondItem="OhS-4W-4Tb" secondAttribute="bottom" constant="50" id="xDG-EK-MUN"/>
+                            <constraint firstItem="5KD-8I-Q2f" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="I9r-ZB-Dhd"/>
+                            <constraint firstAttribute="trailing" secondItem="5KD-8I-Q2f" secondAttribute="trailing" id="XZl-Vh-cEc"/>
+                            <constraint firstItem="Qmk-fC-Lqc" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.4" id="bJZ-cG-zP6"/>
+                            <constraint firstItem="5KD-8I-Q2f" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="knW-EC-NLz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5KD-8I-Q2f" secondAttribute="bottom" id="sE0-2O-qt3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="keyField" destination="Qmk-fC-Lqc" id="HE1-in-1oH"/>
                         <outlet property="messageField" destination="mGu-7z-Whf" id="gtd-Z7-dmg"/>
-                        <outlet property="textLabel" destination="BgU-Mg-ly9" id="Qnu-oO-AUY"/>
+                        <outlet property="passwordField" destination="rY4-rg-V5J" id="Se0-sz-pz8"/>
+                        <outlet property="signedSwitch" destination="0FD-Kl-Rct" id="VoV-1w-OGW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="139" y="116"/>
         </scene>
     </scenes>
 </document>
