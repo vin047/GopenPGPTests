@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_gopenpgpTestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_gopenpgpTestsVersionString[];
+FOUNDATION_EXPORT double Pods_GopenPGPTestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_GopenPGPTestsVersionString[];
 

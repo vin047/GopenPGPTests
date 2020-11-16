@@ -7,7 +7,7 @@ DEPENDENCIES:
   - SwiftProtobuf (~> 1.5.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - CryptoSwift
     - SwiftProtobuf
 
@@ -15,6 +15,6 @@ SPEC CHECKSUMS:
   CryptoSwift: d81eeaa59dc5a8d03720fe919a6fd07b51f7439f
   SwiftProtobuf: 241400280f912735c1e1b9fe675fdd2c6c4d42e2
 
-PODFILE CHECKSUM: fd0c9b3261689ad4b972ca407143675015547e2d
+PODFILE CHECKSUM: e1eb3d6ff6d3131b846b324fdec2848cd08afe77
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.10.0

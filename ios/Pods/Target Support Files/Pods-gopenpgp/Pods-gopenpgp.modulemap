@@ -1,6 +1,0 @@
-framework module Pods_gopenpgp {
-  umbrella header "Pods-gopenpgp-umbrella.h"
-
-  export *
-  module * { export * }
-}
