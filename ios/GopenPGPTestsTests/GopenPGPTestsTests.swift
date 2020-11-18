@@ -127,6 +127,10 @@ class GopenPGPTestsTests: XCTestCase {
 
     func testUnlockKeyInvalidPass() {
         let myKey = CryptoKey(fromArmored: myPrivateKey)
+        XCTAssertThrowsError(try myKey?.unlock(nil)) { error in
+            XCTAssertEqual((error as NSError).domain, "go")
+            XCTAssertEqual(error.localizedDescription, "gopenpgp: error in unlocking key: openpgp: invalid data: private key checksum failure")
+        }
         XCTAssertThrowsError(try myKey?.unlock("123".data(using: .utf8))) { error in
             XCTAssertEqual((error as NSError).domain, "go")
             XCTAssertEqual(error.localizedDescription, "gopenpgp: error in unlocking key: openpgp: invalid data: private key checksum failure")
