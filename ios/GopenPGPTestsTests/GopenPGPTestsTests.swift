@@ -153,6 +153,38 @@ class GopenPGPTestsTests: XCTestCase {
         let key2 = CryptoKey(fromArmored: myPrivateKeyOld)
         XCTAssertEqual(key?.getFingerprint(), key2?.getFingerprint())
     }
+
+    func testKeyRingPublicKey() {
+        let senderPublic1 = CryptoKey(fromArmored: senderPublicKey)
+        let senderPublicKeyRing1 = CryptoKeyRing(senderPublic1)
+        let cipher1 = try? senderPublicKeyRing1?.encrypt(CryptoNewPlainMessageFromString("hi"), privateKey: nil)
+        XCTAssertNotNil(cipher1)
+
+        // invalid – public key of public key
+        let senderPublic2 = try? senderPublic1?.toPublic()
+        XCTAssertNil(senderPublic2)
+
+        // invalid – encrypt with a private key ring
+        let myKey1 = CryptoKey(fromArmored: myPrivateKey)
+        let myKeyRing1 = CryptoKeyRing(myKey1)
+        let cipher2 = try? myKeyRing1?.encrypt(CryptoNewPlainMessageFromString("hi"), privateKey: nil)
+        XCTAssertNil(cipher2)
+
+        let myKey2 = try? myKey1?.toPublic()
+        let myKeyRing2 = CryptoKeyRing(myKey2)
+        let cipher3 = try? myKeyRing2?.encrypt(CryptoNewPlainMessageFromString("hi"), privateKey: nil)
+        XCTAssertNotNil(cipher3)
+    }
+
+    func testKeyRingPrivateLock() {
+        let key = CryptoKey(fromArmored: myPrivateKey)
+        let keyRing1 = CryptoKeyRing(key)
+        XCTAssertNil(keyRing1)
+
+        let unlockedKey = try? key?.unlock(passphrase)
+        let keyRing2 = CryptoKeyRing(unlockedKey)
+        XCTAssertNotNil(keyRing2)
+    }
 }
 
 // MARK: Decryption Tests
@@ -175,6 +207,18 @@ extension GopenPGPTestsTests {
         XCTAssertNotNil(error)
         XCTAssertEqual(error?.domain, "go")
         XCTAssertEqual(error?.localizedDescription, "gopenpgp: unable to decrypt message: gopenpgp: error in reading message: openpgp: incorrect key")
+
+        // manually, using key + keyring
+        let myKey = CryptoKey(fromArmored: myPrivateKey)
+        XCTAssertThrowsError(try CryptoKeyRing(nil)?.decrypt(CryptoPGPMessage(fromArmored: cipher), verifyKey: CryptoKeyRing(myKey), verifyTime: CryptoGetUnixTime())) { error in
+            XCTAssertEqual((error as NSError).domain, "go")
+            XCTAssertEqual(error.localizedDescription, "gopenpgp: error in reading message: openpgp: incorrect key")
+        }
+        let unlockedCryptoKey = try? myKey?.unlock(passphrase)
+        XCTAssertThrowsError(try CryptoKeyRing(unlockedCryptoKey)?.decrypt(CryptoPGPMessage(fromArmored: cipher), verifyKey: CryptoKeyRing(myKey), verifyTime: CryptoGetUnixTime())) { error in
+            XCTAssertEqual((error as NSError).domain, "go")
+            XCTAssertEqual(error.localizedDescription, "gopenpgp: error in reading message: openpgp: incorrect key")
+        }
     }
 
     func testDecryptSignedBySelf() {
@@ -271,6 +315,20 @@ extension GopenPGPTestsTests {
         XCTAssertEqual(error?.domain, "go")
         XCTAssertEqual(error?.localizedDescription, "gopenpgp: unable to decrypt message: Signature Verification Error: No matching signature")
         XCTAssertEqual(decryptedMessageWithSig, "")
+
+        // manually, using key + keyring
+        let myKey = CryptoKey(fromArmored: myPrivateKey)
+        let unlockedKey = try? myKey?.unlock(passphrase)
+        var decryptedMessageManual: CryptoPlainMessage?
+        XCTAssertNoThrow(decryptedMessageManual = try CryptoKeyRing(unlockedKey)?.decrypt(CryptoPGPMessage(fromArmored: cipher), verifyKey: nil, verifyTime: CryptoGetUnixTime()))
+        XCTAssertEqual(decryptedMessageManual?.getString(), message)
+        decryptedMessageManual = nil
+
+        XCTAssertThrowsError(decryptedMessageManual = try CryptoKeyRing(unlockedKey)?.decrypt(CryptoPGPMessage(fromArmored: cipher), verifyKey: CryptoKeyRing(CryptoKey(fromArmored: senderPublicKey)), verifyTime: CryptoGetUnixTime())) { error in
+            XCTAssertEqual((error as NSError).domain, "go")
+            XCTAssertEqual(error.localizedDescription, "Signature Verification Error: No matching signature")
+        }
+        XCTAssertNil(decryptedMessageManual)
     }
 
     func testDecryptInvalidSignature() {
@@ -292,6 +350,20 @@ extension GopenPGPTestsTests {
         XCTAssertEqual(error?.domain, "go")
         XCTAssertEqual(error?.localizedDescription, "gopenpgp: unable to decrypt message: Signature Verification Error: No matching signature")
         XCTAssertEqual(decryptedMessage, "")
+
+        // manually, using key + keyring
+        let myKey = CryptoKey(fromArmored: myPrivateKey)
+        let unlockedKey = try? myKey?.unlock(passphrase)
+        var decryptedMessageManual: CryptoPlainMessage?
+        XCTAssertNoThrow(decryptedMessageManual = try CryptoKeyRing(unlockedKey)?.decrypt(CryptoPGPMessage(fromArmored: cipher), verifyKey: nil, verifyTime: CryptoGetUnixTime()))
+        XCTAssertEqual(decryptedMessageManual?.getString(), "message from user2\n")
+        decryptedMessageManual = nil
+
+        XCTAssertThrowsError(decryptedMessageManual = try CryptoKeyRing(unlockedKey)?.decrypt(CryptoPGPMessage(fromArmored: cipher), verifyKey: CryptoKeyRing(CryptoKey(fromArmored: senderPublicKey)), verifyTime: CryptoGetUnixTime())) { error in
+            XCTAssertEqual((error as NSError).domain, "go")
+            XCTAssertEqual(error.localizedDescription, "Signature Verification Error: No matching signature")
+        }
+        XCTAssertNil(decryptedMessageManual)
     }
 }
 
@@ -303,6 +375,34 @@ extension GopenPGPTestsTests {
         XCTAssertNil(error)
 
         let decryptedMessage = HelperDecryptVerifyMessageArmored(myPrivateKey, myPrivateKey, passphrase, cipher, &error)
+        XCTAssertNil(error)
+        XCTAssertEqual(decryptedMessage, message)
+
+        // manually, using key + keyring
+        let myKey = CryptoKey(fromArmored: myPrivateKey)
+        let unlockedKey = try? myKey?.unlock(passphrase)
+        let unlockedKeyRing = CryptoKeyRing(unlockedKey)
+        let publicKey = try? myKey?.toPublic()
+        let publicKeyRing = CryptoKeyRing(publicKey)
+        let cipher2 = try? publicKeyRing?.encrypt(CryptoNewPlainMessageFromString(message), privateKey: unlockedKeyRing).getArmored(&error)
+        XCTAssertNil(error)
+        XCTAssertNotNil(cipher2)
+
+        let decryptedMessage2 = HelperDecryptVerifyMessageArmored(myPrivateKey, myPrivateKey, passphrase, cipher2, &error)
+        XCTAssertNil(error)
+        XCTAssertEqual(decryptedMessage2, message)
+    }
+
+    func testEncryptUnsignedToSelf() {
+        let message = "from me to me\n"
+
+        let publicKey = CryptoKey(fromArmored: senderPublicKey)
+        let publicKeyRing = CryptoKeyRing(publicKey)
+        let cipher = try? publicKeyRing?.encrypt(CryptoNewPlainMessageFromString(message), privateKey: nil).getArmored(&error)
+        XCTAssertNil(error)
+        XCTAssertNotNil(cipher)
+
+        let decryptedMessage = HelperDecryptMessageArmored(senderPrivateKey, passphrase, cipher, &error)
         XCTAssertNil(error)
         XCTAssertEqual(decryptedMessage, message)
     }
@@ -362,6 +462,14 @@ extension GopenPGPTestsTests {
         XCTAssertEqual(error?.domain, "go")
         XCTAssertEqual(error?.localizedDescription, "gopenpgp: unable to decrypt attachment: gopengpp: unable to read attachment: openpgp: incorrect key")
         XCTAssertNil(decryptedData)
+        error = nil
+
+        // with key ring
+        let decryptedData2 = HelperDecryptAttachment(encryptedData.keyPacket, encryptedData.dataPacket, CryptoKeyRing(CryptoKey(fromArmored: mediaKey)), &error)
+        XCTAssertNotNil(error)
+        XCTAssertEqual(error?.domain, "go")
+        XCTAssertEqual(error?.localizedDescription, "gopenpgp: unable to decrypt attachment: gopengpp: unable to read attachment: openpgp: incorrect key")
+        XCTAssertNil(decryptedData2)
     }
 
     func testDecryptFileNoKey() {
@@ -398,5 +506,22 @@ extension GopenPGPTestsTests {
         let decryptedData = HelperDecryptAttachmentWithKey(mediaKey, nil, pgpInput?.keyPacket, pgpInput?.dataPacket, &error)
         XCTAssertNil(error)
         XCTAssertEqual(data.sha256().toHexString(), decryptedData?.sha256().toHexString())
+        try? FileManager.default.removeItem(at: destinationURL)
+
+        // with key ring
+        let encryptedMessage2 = HelperEncryptAttachment(data, nil, CryptoKeyRing(CryptoKey(fromArmored: mediaKey)), &error)
+        XCTAssertNil(error)
+        let pgpData2 = PGPData.with {
+            $0.keyPacket = encryptedMessage2!.keyPacket!
+            $0.dataPacket = encryptedMessage2!.dataPacket!
+        }
+        let encryptedData2 = try? pgpData2.serializedData()
+        try? encryptedData2?.write(to: destinationURL)
+
+        let binaryDataInput2 = try? Data(contentsOf: sourceURL)
+        let pgpInput2 = try? PGPData(serializedData: binaryDataInput2!)
+        let decryptedData2 = HelperDecryptAttachmentWithKey(mediaKey, nil, pgpInput2?.keyPacket, pgpInput2?.dataPacket, &error)
+        XCTAssertNil(error)
+        XCTAssertEqual(data.sha256().toHexString(), decryptedData2?.sha256().toHexString())
     }
 }
